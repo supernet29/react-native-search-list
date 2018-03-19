@@ -54,6 +54,9 @@ export default class SearchList extends Component {
     searchInputPlaceholderColor: PropTypes.string,
     searchInputPlaceholder: PropTypes.string,
 
+    // used for hide toolbar
+    showToolbar: PropTypes.bool,
+
     title: PropTypes.string,
     titleTextColor: PropTypes.string,
 
@@ -89,6 +92,7 @@ export default class SearchList extends Component {
     sectionIndexTextColor: '#171a23',
     searchListBackgroundColor: Theme.color.primaryDark,
     toolbarBackgroundColor: Theme.color.primaryDark,
+    showToolbar: true,
   }
 
   constructor (props) {
@@ -251,6 +255,28 @@ export default class SearchList extends Component {
   }
 
   /**
+   * render Toolbar
+   * @returns {XML}
+   * @private
+   */
+  _renderToolbar () {
+    return <Toolbar
+              animatedValue={this.state.animatedValue}
+
+              style={[{
+                opacity: this.state.animatedValue.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0]
+                }),
+                backgroundColor: this.props.toolbarBackgroundColor
+              }]}
+              title={this.props.title}
+              textColor={this.props.titleTextColor}
+              renderBackButton={this.props.renderBackButton || this._renderBackButton.bind(this)}
+            />
+  }
+
+  /**
    * render default list view header
    * @returns {null}
    * @private
@@ -364,20 +390,7 @@ export default class SearchList extends Component {
           flex: 1,
           backgroundColor: this.props.searchListBackgroundColor
         }]}>
-          <Toolbar
-            animatedValue={this.state.animatedValue}
-
-            style={[{
-              opacity: this.state.animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [1, 0]
-              }),
-              backgroundColor: this.props.toolbarBackgroundColor
-            }]}
-            title={this.props.title}
-            textColor={this.props.titleTextColor}
-            renderBackButton={this.props.renderBackButton || this._renderBackButton.bind(this)}
-          />
+          {this.props.showToolbar? _renderToolbar(): null }
 
           <SearchBar
             placeholder={this.props.searchInputPlaceholder ? this.props.searchInputPlaceholder : ''}
