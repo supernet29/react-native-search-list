@@ -390,7 +390,7 @@ export default class SearchList extends Component {
           flex: 1,
           backgroundColor: this.props.searchListBackgroundColor
         }]}>
-          {this.props.showToolbar? _renderToolbar(): null }
+          {this.props.showToolbar? this._renderToolbar(): null }
 
           <SearchBar
             placeholder={this.props.searchInputPlaceholder ? this.props.searchInputPlaceholder : ''}
